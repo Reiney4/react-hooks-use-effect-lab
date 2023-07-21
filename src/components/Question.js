@@ -4,6 +4,26 @@ function Question({ question, onAnswered }) {
   const [timeRemaining, setTimeRemaining] = useState(10);
 
   // add useEffect code
+  useEffect(() => {
+    let timer = null;
+
+    const countdown = () => {
+      setTimeRemaining((prevTime) => prevTime - 1);
+    };
+
+    if (timeRemaining > 0) {
+      timer = setTimeout(countdown, 1000);
+    } else {
+      setTimeRemaining(10);
+      onAnswered(false);
+    }
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [timeRemaining, onAnswered]);
 
   function handleAnswer(isCorrect) {
     setTimeRemaining(10);
